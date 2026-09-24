@@ -58,6 +58,12 @@
 
 html {
   overflow-x: clip;
+  overscroll-behavior-y: none;
+}
+
+html.menu-open,
+html.menu-open body {
+  overscroll-behavior: none;
 }
 
 body {
@@ -124,6 +130,10 @@ body.menu-open {
 img {
   max-width: 100%;
   display: block;
+}
+
+section[id] {
+  scroll-margin-top: var(--header-height);
 }
 
 a {

@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { bookingUrl, navItems } from '../../data/content.js'
 import { images } from '../../data/images.js'
+import { lockBodyScroll } from '../../hooks/lockBodyScroll.js'
+import { getLenis } from '../../hooks/useLenis.js'
 import { iosSpring } from '../../lib/motion.js'
 import { scrollToSection, scrollToTop } from '../../utils/scroll.js'
 import { MenuToggle } from './MenuToggle.jsx'
@@ -11,6 +13,7 @@ import { MobileMenuLink } from './MobileMenuLink.jsx'
 import styles from './Header.module.scss'
 
 const COMPACT_SCROLL_THRESHOLD = 32
+const MENU_CLOSE_MS = 380
 
 const overlayVariants = {
   hidden: { opacity: 0 },
@@ -53,7 +56,12 @@ const linkVariants = {
 }
 
 function getHeaderMode() {
-  return window.scrollY > COMPACT_SCROLL_THRESHOLD ? 'compact' : 'hero'
+  const lenis = getLenis()
+  const y = lenis?.scroll ?? window.scrollY
+  const onSectionRoute = window.location.pathname !== '/'
+  // Section routes land below the fold — keep compact so offset matches chrome
+  if (onSectionRoute || y > COMPACT_SCROLL_THRESHOLD) return 'compact'
+  return 'hero'
 }
 
 export function Header() {
@@ -62,12 +70,21 @@ export function Header() {
   const [headerMode, setHeaderMode] = useState('hero')
   const [portalReady, setPortalReady] = useState(false)
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const toggleMenu = useCallback(() => setMenuOpen((v) => !v), [])
 
   const handleLogoClick = (e) => {
-    closeMenu()
+    if (menuOpen) {
+      e.preventDefault()
+      closeMenu()
+      window.setTimeout(() => {
+        if (pathname === '/') scrollToTop()
+        else navigate('/')
+      }, MENU_CLOSE_MS)
+      return
+    }
     if (pathname === '/') {
       e.preventDefault()
       scrollToTop()
@@ -75,11 +92,21 @@ export function Header() {
   }
 
   const handleNavClick = (path, sectionId) => (e) => {
-    closeMenu()
-    if (pathname === path) {
-      e.preventDefault()
-      scrollToSection(sectionId)
+    if (!menuOpen) {
+      if (pathname === path) {
+        e.preventDefault()
+        scrollToSection(sectionId)
+      }
+      return
     }
+
+    // Wait until lockBodyScroll unlocks, otherwise Lenis restores the old Y
+    e.preventDefault()
+    closeMenu()
+    window.setTimeout(() => {
+      if (pathname === path) scrollToSection(sectionId)
+      else navigate(path)
+    }, MENU_CLOSE_MS)
   }
 
   useEffect(() => {
@@ -93,19 +120,32 @@ export function Header() {
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update)
     window.addEventListener('scrollend', update)
+
+    let lenis = getLenis()
+    const attachLenis = () => {
+      lenis = getLenis()
+      lenis?.on('scroll', update)
+    }
+    // useLenis mounts on the parent; attach after it initializes
+    const raf = requestAnimationFrame(attachLenis)
+
     return () => {
+      cancelAnimationFrame(raf)
       window.removeEventListener('scroll', update)
       window.removeEventListener('resize', update)
       window.removeEventListener('scrollend', update)
+      lenis?.off('scroll', update)
+      getLenis()?.off('scroll', update)
     }
   }, [pathname])
 
   useEffect(() => {
-    document.documentElement.dataset.header = headerMode === 'compact' ? 'compact' : 'full'
+    const compact = headerMode === 'compact' || pathname !== '/'
+    document.documentElement.dataset.header = compact ? 'compact' : 'full'
     return () => {
       delete document.documentElement.dataset.header
     }
-  }, [headerMode])
+  }, [headerMode, pathname])
 
   useEffect(() => {
     if (menuOpen) setDrawerShown(true)
@@ -114,9 +154,9 @@ export function Header() {
   const drawerActive = menuOpen || drawerShown
 
   useEffect(() => {
-    document.body.classList.toggle('menu-open', drawerActive)
-    return () => document.body.classList.remove('menu-open')
-  }, [drawerActive])
+    if (!menuOpen) return undefined
+    return lockBodyScroll()
+  }, [menuOpen])
 
   useEffect(() => {
     closeMenu()
@@ -139,7 +179,8 @@ export function Header() {
     return () => mq.removeEventListener('change', onChange)
   }, [closeMenu])
 
-  const themeClass = headerMode === 'hero' ? styles.heroTheme : styles.compactTheme
+  const themeClass =
+    headerMode === 'hero' && pathname === '/' ? styles.heroTheme : styles.compactTheme
 
   const drawer =
     portalReady
@@ -152,6 +193,7 @@ export function Header() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="Меню"
+                data-lenis-prevent=""
                 variants={overlayVariants}
                 initial="hidden"
                 animate="visible"

@@ -22,28 +22,28 @@
 }
 
 .bar {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px 24px;
   width: var(--container-mobile);
   max-width: 100%;
   min-height: var(--header-bar);
   height: var(--header-bar);
   margin: 0 auto;
-  padding: 12px 0;
+  padding: 0;
   box-sizing: border-box;
 
   @media (min-width: $bp-desktop) {
     width: var(--container);
-    padding: 16px 0;
   }
 }
 
 .logo {
   display: flex;
   flex-direction: column;
-  line-height: 0.9;
+  justify-content: center;
+  line-height: 0.85;
   font-family: var(--font-condensed);
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -129,6 +129,7 @@
   @media (min-width: $bp-desktop) {
     .bar {
       align-items: flex-start;
+      padding-top: 12px;
     }
   }
 }
@@ -137,7 +138,8 @@
   display: flex;
   align-items: center;
   background: $black;
-  box-shadow: 0 2px 0 rgba($black, 1);
+  // Covers Lenis/GPU hairline without extending the painted bar height
+  box-shadow: 0 1px 0 $black;
 
   .bar {
     display: flex;
@@ -149,31 +151,40 @@
     min-height: var(--header-bar);
     height: var(--header-bar);
     margin: 0 auto;
-    padding: 8px 0;
+    padding: 0;
 
     @media (min-width: $bp-desktop) {
       width: var(--container);
-      padding: 8px 0;
     }
   }
 
   .logo {
     flex-shrink: 0;
-    align-self: center;
+    align-self: stretch;
+    height: 100%;
+    justify-content: center;
+    transform: none;
+    line-height: 0.82;
+    // Trim Extenda em-box so glyphs center with the menu control
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
   }
 
   .logoMain {
-    font-size: clamp(1.35rem, 4.2vw, 2rem);
+    font-size: clamp(1.2rem, 3.8vw, 1.75rem);
   }
 
   .logoSub {
-    font-size: clamp(0.68rem, 2.4vw, 0.95rem);
+    font-size: clamp(0.62rem, 2.2vw, 0.85rem);
+    margin-top: 0.12em;
   }
 
   .navDesktop {
     display: none;
     flex-shrink: 1;
     min-width: 0;
+    align-self: stretch;
+    margin-left: auto;
 
     @media (min-width: $bp-desktop) {
       display: flex;
@@ -187,15 +198,21 @@
     align-items: center;
     justify-content: flex-end;
     gap: clamp(10px, 1.5vw, 22px);
+    height: 100%;
   }
 
   .navList a {
     font-size: clamp(0.65rem, 0.95vw, 0.85rem);
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
   }
 
   .mobileBar {
     flex-shrink: 0;
-    align-self: center;
+    align-self: stretch;
+    align-items: center;
+    height: 100%;
   }
 
   .logo,
