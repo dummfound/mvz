@@ -10,17 +10,22 @@ ScrollTrigger.config({ ignoreMobileResize: true })
 let lenisInstance = null
 let lockCount = 0
 
-/** iPhone / touch: Lenis kills native inertia — keep native scroll there. */
+/** iPhone / touch phones: Lenis kills native inertia — keep native scroll there. */
 const shouldUseLenis = () => {
   if (typeof window === 'undefined') return false
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return false
   }
-  // Fine pointer + hover ≈ desktop mouse/trackpad
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    return true
+  // Mobile / tablet layout — always native (matches site $bp-desktop)
+  if (!window.matchMedia('(min-width: 1024px)').matches) return false
+  // Real iPhone / iPod even if somehow desktop-width
+  if (/iPhone|iPod/i.test(navigator.userAgent || '')) return false
+  // Coarse pointer / no hover
+  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) {
+    return false
   }
-  return false
+  // Fine pointer + hover ≈ desktop mouse/trackpad
+  return window.matchMedia('(hover: hover) and (pointer: fine)').matches
 }
 
 export const getLenis = () => lenisInstance
@@ -57,11 +62,26 @@ export const scrollTo = (target, options = {}) => {
     top = target.getBoundingClientRect().top + window.scrollY + offset
   }
 
-  window.scrollTo({
-    top: Math.max(0, top),
-    behavior: immediate ? 'auto' : 'smooth',
-  })
-  onComplete?.()
+  const y = Math.max(0, top)
+  // iOS Safari: set scrollTop as well — window.scrollTo smooth is flaky after unlock
+  if (immediate) {
+    window.scrollTo(0, y)
+    document.documentElement.scrollTop = y
+    document.body.scrollTop = y
+    onComplete?.()
+    return
+  }
+
+  window.scrollTo({ top: y, behavior: 'smooth' })
+  // Fallback if smooth is ignored (older iOS / mid-unlock)
+  window.setTimeout(() => {
+    if (Math.abs((window.scrollY || document.documentElement.scrollTop) - y) > 8) {
+      window.scrollTo(0, y)
+      document.documentElement.scrollTop = y
+      document.body.scrollTop = y
+    }
+    onComplete?.()
+  }, 450)
 }
 
 /** Pause Lenis while overlays lock the page (menu / radio). Nested-safe. */

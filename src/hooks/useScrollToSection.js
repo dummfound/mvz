@@ -17,19 +17,22 @@ export function useScrollToSection() {
   useLayoutEffect(() => {
     const smooth = !prefersReducedMotion()
 
+    // Home: only snap to top when arriving from another route, not on remount
     if (pathname === '/') {
-      scrollToTop(smooth)
+      if (window.scrollY > 2) scrollToTop(smooth)
       return
     }
 
     const sectionId = pathToSection[pathname]
     if (!sectionId) return
 
-    // Let compact header CSS apply before measuring offset
     document.documentElement.dataset.header = 'compact'
-    const id = window.requestAnimationFrame(() => {
+
+    // Native iOS scroll needs a tick after route + unlockBodyScroll
+    const id = window.setTimeout(() => {
       scrollToSection(sectionId, smooth)
-    })
-    return () => window.cancelAnimationFrame(id)
+    }, 50)
+
+    return () => window.clearTimeout(id)
   }, [pathname])
 }

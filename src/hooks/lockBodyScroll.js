@@ -48,6 +48,8 @@ export const lockBodyScroll = () => {
       live.scrollTo(scrollY, { immediate: true, force: true })
     } else {
       window.scrollTo(0, scrollY)
+      document.documentElement.scrollTop = scrollY
+      document.body.scrollTop = scrollY
     }
   }
 }

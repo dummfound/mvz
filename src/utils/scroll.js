@@ -20,7 +20,7 @@ export function readCompactHeaderOffset() {
 }
 
 function readScrollY() {
-  return getLenis()?.scroll ?? window.scrollY
+  return getLenis()?.scroll ?? window.scrollY ?? document.documentElement.scrollTop ?? 0
 }
 
 function sectionScrollTop(el, headerOffset) {
@@ -41,17 +41,28 @@ export function scrollToSection(sectionId, smooth = true) {
   // Land under compact bar (header shrinks once we leave the top)
   const headerOffset = readCompactHeaderOffset()
   const top = sectionScrollTop(el, headerOffset)
+  const hasLenis = Boolean(getLenis())
 
-  scrollTo(top, {
-    immediate: !smooth,
-    // Slightly longer than default so the jump reads as a scroll, not a snap
-    ...(smooth ? { duration: 1.15 } : {}),
-    onComplete: () => {
-      // Correct Lenis undershoot / header resize after the jump
-      const delta = el.getBoundingClientRect().top - headerOffset
-      if (Math.abs(delta) > 1) {
-        scrollTo(readScrollY() + delta, { immediate: true })
-      }
-    },
-  })
+  const go = () => {
+    scrollTo(top, {
+      immediate: !smooth,
+      ...(hasLenis && smooth ? { duration: 1.15 } : {}),
+      onComplete: () => {
+        const delta = el.getBoundingClientRect().top - headerOffset
+        if (Math.abs(delta) > 1) {
+          scrollTo(readScrollY() + delta, { immediate: true })
+        }
+      },
+    })
+  }
+
+  // iOS often drops smooth scrollTo from useLayoutEffect — defer one frame
+  if (!hasLenis) {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(go)
+    })
+    return
+  }
+
+  go()
 }

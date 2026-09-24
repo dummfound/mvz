@@ -57,13 +57,19 @@
 }
 
 html {
-  overflow-x: clip;
-  overscroll-behavior-y: none;
+  // `clip` + overscroll on <html> breaks native inertia on iOS Safari
+  overflow-x: hidden;
 }
 
 html.menu-open,
 html.menu-open body {
   overscroll-behavior: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html {
+    overscroll-behavior-y: none;
+  }
 }
 
 body {
@@ -124,7 +130,6 @@ body::after {
 
 body.menu-open {
   overflow: hidden;
-  touch-action: none;
 }
 
 img {
