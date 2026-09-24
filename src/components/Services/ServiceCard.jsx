@@ -64,7 +64,7 @@ export function ServiceCard({ variant, title, pills, image }) {
             aria-hidden
             focusable="false"
           >
-            <text x="0" y="100">
+            <text x="1" y="100" textLength="102.1" lengthAdjust="spacingAndGlyphs">
               MAN
             </text>
           </svg>
