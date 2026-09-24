@@ -17,8 +17,8 @@ export function Home() {
       <main>
         <Hero />
         <About />
-        <Services />
         <Philosophy />
+        <Services />
         <div className={styles.giftsGallery}>
           <Gifts />
           <Gallery />
