@@ -24,7 +24,7 @@ export function Gallery() {
       </div>
 
       <div className={styles.inner}>
-        {/* <h2 className={styles.sectionTitle}>образы</h2> */}
+        <h2 className={styles.sectionTitle}>образы</h2>
         <ul className={styles.grid}>
           <GalleryCard item={galleryItems.featured} featured />
           {galleryItems.items.map((item) => (
