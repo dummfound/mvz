@@ -1,0 +1,40 @@
+@use '../../styles/variables' as *;
+
+.wrap {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  background-color: $pink;
+  color: $black;
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+.track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1.5rem;
+  padding: 0.75rem 0;
+  animation: marquee 40s linear infinite;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: $black;
+}
+
+.item {
+  padding: 0 0.5rem;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

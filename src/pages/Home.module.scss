@@ -1,0 +1,14 @@
+@use '../styles/variables' as *;
+
+.giftsGallery {
+  background: linear-gradient(
+    180deg,
+    #1a1a1a 0%,
+    #2a1218 10%,
+    #4a1f2e 30%,
+    #7a3f52 55%,
+    #b8657f 75%,
+    $pink 92%,
+    $pink 100%
+  );
+}

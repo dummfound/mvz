@@ -1,0 +1,23 @@
+$pink: #ff9ab6;
+$pink-light: #ffc5d6;
+$black: #0a0a0a;
+$white: #ffffff;
+$gray-bg: #ececec;
+$dark: #1a1a1a;
+$dark-2: #121212;
+
+$font-display: 'Syne', sans-serif;
+$font-body: 'Outfit', system-ui, sans-serif;
+$font-mono: 'Space Mono', monospace;
+$font-condensed: 'Extenda', 'Bebas Neue', sans-serif;
+
+$container: min(1280px, calc(100% - 48px));
+$container-mobile: calc(100% - 32px);
+$radius-card: 18px;
+$radius-pill: 999px;
+
+$bp-desktop: 1024px;
+$header-height: 88px;
+$header-height-mobile: 72px;
+$header-height-compact: 64px;
+$header-height-mobile-compact: 52px;

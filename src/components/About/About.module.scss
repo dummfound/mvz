@@ -1,0 +1,113 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.about {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--gray-bg);
+  color: var(--black);
+  border-top: 3px solid var(--pink);
+}
+
+.bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: left center;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: clamp(480px, 68vh, 760px);
+  @include section-inner;
+  padding-top: clamp(28px, 5vh, 48px);
+  padding-bottom: clamp(32px, 6vh, 56px);
+}
+
+.intro {
+  justify-self: end;
+  margin: 0;
+  max-width: min(100%, 460px);
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.headline {
+  align-self: center;
+  justify-self: start;
+  margin: 0;
+  max-width: min(100%, 980px);
+  font-family: var(--font-condensed);
+  font-size: clamp(2rem, 8.5vw, 8rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  strong {
+    display: block;
+    margin-top: 0.08em;
+    font-weight: 400;
+    color: var(--pink);
+  }
+}
+
+.watermark {
+  justify-self: end;
+  align-self: end;
+  margin: 0;
+  font-family: var(--font-condensed);
+  font-size: clamp(4rem, 26vw, 16rem);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--pink);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 767px) {
+  .bg {
+    height: 100%;
+    max-height: 100%;
+    opacity: 0.55;
+  }
+
+  .inner {
+    min-height: clamp(420px, 78vh, 620px);
+    gap: 24px;
+  }
+
+  .intro {
+    justify-self: stretch;
+    max-width: none;
+    font-size: clamp(0.85rem, 3.9vw, 1.05rem);
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  .headline {
+    font-size: clamp(2.6rem, 14vw, 4.5rem);
+    line-height: 0.95;
+  }
+
+  .watermark {
+    font-size: clamp(6rem, 38vw, 11rem);
+    line-height: 0.8;
+  }
+}

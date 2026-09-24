@@ -1,0 +1,41 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.services {
+  background: var(--dark);
+  color: var(--white);
+  padding-bottom: clamp(48px, 8vh, 100px);
+}
+
+.inner {
+  @include section-inner;
+}
+
+.sectionTitle {
+  margin: 0 0 24px;
+  font-family: var(--font-condensed);
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

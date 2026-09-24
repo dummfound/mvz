@@ -1,0 +1,39 @@
+@use '../../styles/variables' as *;
+
+.link {
+  display: block;
+  padding: clamp(0.35rem, 1.1vh, 0.65rem) 0;
+  border-bottom: 1px solid rgba($white, 0.12);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.slot {
+  display: block;
+  overflow: hidden;
+  height: clamp(1.5rem, 5.2vh, 2.55rem);
+}
+
+.track {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: clamp(1.5rem, 5.2vh, 2.55rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 5vh, 2.45rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.linkActive .line {
+  color: var(--pink);
+}

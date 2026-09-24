@@ -1,0 +1,17 @@
+@use 'variables' as *;
+
+@mixin container {
+  width: var(--container-mobile);
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (min-width: $bp-desktop) {
+    width: var(--container);
+  }
+}
+
+@mixin section-inner {
+  @include container;
+  padding-top: clamp(20px, 4vh, 40px);
+}
