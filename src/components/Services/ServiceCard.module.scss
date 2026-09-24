@@ -181,6 +181,24 @@
   }
 }
 
+@media (max-width: 599px) {
+  .manWord {
+    top: -5%;
+    height: 58%;
+  }
+
+  .pills {
+    gap: 0.55rem;
+    padding: 0 3.75rem 1rem 0.9rem;
+
+    li {
+      padding: 0.42em 0.8em 0.42em 0.95em;
+      font-size: clamp(0.78rem, 3.6vw, 0.95rem);
+      letter-spacing: 0.12em;
+    }
+  }
+}
+
 .nails {
   container-type: inline-size;
   background-color: #1a1a1a;

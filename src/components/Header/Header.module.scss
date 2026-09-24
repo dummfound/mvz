@@ -326,15 +326,16 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 0.15rem 0 0.35rem;
+  padding: 0.5rem 0;
 }
 
 .faces {
   display: block;
-  height: 100%;
-  width: auto;
-  max-width: none;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
   object-fit: contain;
+  object-position: center;
   pointer-events: none;
   user-select: none;
 }
