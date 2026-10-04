@@ -98,55 +98,94 @@ export const resumeLenis = () => {
 /**
  * Document-level Lenis driven by GSAP ticker (desktop only).
  * iOS / touch keeps native inertia; ScrollTrigger still works on window scroll.
+ * Re-evaluates when crossing the desktop breakpoint / pointer media changes.
  */
 export const useLenis = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return undefined
-    if (!shouldUseLenis()) {
-      requestAnimationFrame(() => ScrollTrigger.refresh())
-      return undefined
-    }
 
-    const lenis = new Lenis({
-      autoRaf: false,
-      lerp: 0.1,
-      smoothWheel: true,
-      syncTouch: false,
-      touchMultiplier: 1.4,
-      wheelMultiplier: 1,
-      anchors: false,
-      respectReducedMotion: true,
-      // Nested overflow:auto panels keep native scroll
-      prevent: (node) => node?.closest?.('[data-lenis-prevent]') != null,
-    })
+    let lenis = null
+    let tick = null
+    let onScroll = null
+    let onResize = null
 
-    lenisInstance = lenis
-    lockCount = 0
-
-    const onScroll = () => ScrollTrigger.update()
-    lenis.on('scroll', onScroll)
-
-    const tick = (time) => {
-      lenis.raf(time * 1000)
-    }
-    gsap.ticker.add(tick)
-    gsap.ticker.lagSmoothing(0)
-
-    const onResize = () => {
-      lenis.resize()
-      ScrollTrigger.refresh()
-    }
-    window.addEventListener('resize', onResize)
-    requestAnimationFrame(() => ScrollTrigger.refresh())
-
-    return () => {
-      window.removeEventListener('resize', onResize)
-      gsap.ticker.remove(tick)
-      lenis.off('scroll', onScroll)
+    const teardown = () => {
+      if (!lenis) return
+      if (onResize) window.removeEventListener('resize', onResize)
+      if (tick) gsap.ticker.remove(tick)
+      if (onScroll) lenis.off('scroll', onScroll)
       lenis.destroy()
       if (lenisInstance === lenis) lenisInstance = null
+      if (import.meta.env.DEV && window.__lenis === lenis) {
+        delete window.__lenis
+      }
+      lenis = null
+      tick = null
+      onScroll = null
+      onResize = null
       lockCount = 0
       ScrollTrigger.refresh()
+    }
+
+    const setup = () => {
+      if (!shouldUseLenis()) {
+        teardown()
+        requestAnimationFrame(() => ScrollTrigger.refresh())
+        return
+      }
+      if (lenis) {
+        lenis.resize()
+        ScrollTrigger.refresh()
+        return
+      }
+
+      lenis = new Lenis({
+        autoRaf: false,
+        lerp: 0.1,
+        smoothWheel: true,
+        syncTouch: false,
+        touchMultiplier: 1.4,
+        wheelMultiplier: 1,
+        anchors: false,
+        respectReducedMotion: true,
+        prevent: (node) => node?.closest?.('[data-lenis-prevent]') != null,
+      })
+
+      lenisInstance = lenis
+      lockCount = 0
+      if (import.meta.env.DEV) {
+        window.__lenis = lenis
+      }
+
+      onScroll = () => ScrollTrigger.update()
+      lenis.on('scroll', onScroll)
+
+      tick = (time) => {
+        lenis.raf(time * 1000)
+      }
+      gsap.ticker.add(tick)
+      gsap.ticker.lagSmoothing(0)
+
+      onResize = () => {
+        lenis.resize()
+        ScrollTrigger.refresh()
+      }
+      window.addEventListener('resize', onResize)
+      requestAnimationFrame(() => ScrollTrigger.refresh())
+    }
+
+    setup()
+
+    const mqDesktop = window.matchMedia('(min-width: 1024px)')
+    const mqPointer = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const onMq = () => setup()
+    mqDesktop.addEventListener('change', onMq)
+    mqPointer.addEventListener('change', onMq)
+
+    return () => {
+      mqDesktop.removeEventListener('change', onMq)
+      mqPointer.removeEventListener('change', onMq)
+      teardown()
     }
   }, [])
 }
