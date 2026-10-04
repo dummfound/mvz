@@ -13,5 +13,6 @@
 
 @mixin section-inner {
   @include container;
-  padding-top: clamp(20px, 4vh, 40px);
+  // Shared vertical rhythm for section tops
+  padding-top: clamp(24px, 4vh, 40px);
 }

@@ -58,9 +58,8 @@ const linkVariants = {
 function getHeaderMode() {
   const lenis = getLenis()
   const y = lenis?.scroll ?? window.scrollY
-  const onSectionRoute = window.location.pathname !== '/'
-  // Section routes land below the fold — keep compact so offset matches chrome
-  if (onSectionRoute || y > COMPACT_SCROLL_THRESHOLD) return 'compact'
+  // Compact only by scroll — section routes (/services etc.) can return to hero at top
+  if (y > COMPACT_SCROLL_THRESHOLD) return 'compact'
   return 'hero'
 }
 
@@ -116,7 +115,10 @@ export function Header() {
   useEffect(() => {
     const update = () => setHeaderMode(getHeaderMode())
 
+    // Section routes scroll to a block below the fold — start compact to avoid hero flash
+    if (pathname !== '/') setHeaderMode('compact')
     update()
+
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update)
     window.addEventListener('scrollend', update)
@@ -140,12 +142,12 @@ export function Header() {
   }, [pathname])
 
   useEffect(() => {
-    const compact = headerMode === 'compact' || pathname !== '/'
-    document.documentElement.dataset.header = compact ? 'compact' : 'full'
+    document.documentElement.dataset.header =
+      headerMode === 'compact' ? 'compact' : 'full'
     return () => {
       delete document.documentElement.dataset.header
     }
-  }, [headerMode, pathname])
+  }, [headerMode])
 
   useEffect(() => {
     if (menuOpen) setDrawerShown(true)
@@ -180,7 +182,7 @@ export function Header() {
   }, [closeMenu])
 
   const themeClass =
-    headerMode === 'hero' && pathname === '/' ? styles.heroTheme : styles.compactTheme
+    headerMode === 'hero' ? styles.heroTheme : styles.compactTheme
 
   const drawer =
     portalReady
@@ -206,6 +208,13 @@ export function Header() {
                   animate="visible"
                   exit="exit"
                 >
+                  <img
+                    className={styles.panelTexture}
+                    src={images.menu.texture}
+                    alt=""
+                    aria-hidden
+                    decoding="async"
+                  />
                   <div className={styles.top}>
                     <p className={styles.brand}>
                       тот самый салон · о котором говорят все

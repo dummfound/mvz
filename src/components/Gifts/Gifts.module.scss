@@ -29,8 +29,8 @@
 .cardStack {
   position: relative;
   width: 100%;
-  max-width: 540px;
-  height: clamp(180px, 28vw, 305px);
+  max-width: 640px;
+  height: clamp(240px, 36vw, 420px);
   margin: 0 auto;
 }
 
@@ -38,7 +38,7 @@
   position: absolute;
   left: 50%;
   bottom: 0;
-  width: min(340px, 88%);
+  width: min(440px, 96%);
   height: auto;
   transform-origin: center bottom;
   object-fit: contain;
@@ -58,7 +58,7 @@
 
   &:nth-child(3) {
     z-index: 3;
-    transform: translateX(-50%) rotate(-2deg);
+    transform: translateX(calc(-50% + 22%)) rotate(-2deg);
   }
 }
 
@@ -81,21 +81,21 @@
 
 .title {
   margin: 0;
-  max-width: 420px;
+  max-width: 520px;
   font-family: var(--font-condensed);
-  font-size: clamp(1.75rem, 5.5vw, 3.25rem);
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
   font-weight: 400;
-  line-height: 1;
+  line-height: 0.95;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .text {
   margin: 0;
-  max-width: 360px;
-  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  max-width: 420px;
+  font-size: clamp(0.9rem, 2.4vw, 1.1rem);
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.5;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: rgba($white, 0.82);
@@ -110,14 +110,15 @@
 @media (max-width: 767px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: clamp(40px, 10vw, 64px);
+    gap: clamp(48px, 12vw, 72px);
   }
 
   .cardStack {
-    height: clamp(170px, 52vw, 240px);
+    max-width: none;
+    height: clamp(220px, 68vw, 320px);
   }
 
   .cardLayer {
-    width: min(300px, 92%);
+    width: min(360px, 98%);
   }
 }

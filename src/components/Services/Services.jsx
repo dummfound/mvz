@@ -7,7 +7,9 @@ export function Services() {
   const [emblaRef] = useEmblaCarousel({
     align: 'start',
     containScroll: 'trimSnaps',
-    dragFree: false,
+    dragFree: true,
+    duration: 40,
+    skipSnaps: false,
     breakpoints: {
       '(min-width: 600px)': { active: false },
     },

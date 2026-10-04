@@ -5,6 +5,7 @@ export const images = {
   philosophy: '/images/philosophy/bg.png',
   menu: {
     faces: '/images/menu/faces.png',
+    texture: '/images/menu/texture.jpg',
   },
   services: {
     coloring: '/images/services/coloring.png',
