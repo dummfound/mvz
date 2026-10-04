@@ -7,17 +7,25 @@ export function About() {
       <img className={styles.bg} src={images.about} alt="" aria-hidden decoding="async" />
       <div className={styles.inner}>
         <p className={styles.intro}>
-          слушаем, спорим, предлагаем и делаем. не обещаем «как на картинке» — обещаем,
-          что ты выйдешь с ощущением: «да, это моё!»
+          <span className={styles.introLine}>слушаем, спорим, предлагаем и делаем.</span>{' '}
+          <span className={styles.introLine}>не обещаем «как на картинке» — обещаем,</span>{' '}
+          <span className={styles.introLine}>что ты выйдешь с ощущением: «да, это&nbsp;моё!»</span>
         </p>
 
         <h2 id="about-title" className={styles.headline}>
           не просто бьюти мастера{' '}
-          <strong>твои союзники в поисках лучшей версии себя</strong>
+          <strong>
+            твои союзники{' '}
+            <span className={styles.headlineRest}>
+              в поисках лучшей <br className={styles.mBr} />
+              версии себя
+            </span>
+          </strong>
         </h2>
 
         <p className={styles.watermark} aria-hidden>
-          кто мы?
+          <span className={styles.wmLine}>кто</span>
+          <span className={styles.wmLine}>мы?</span>
         </p>
       </div>
     </section>

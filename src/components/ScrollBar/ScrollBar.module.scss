@@ -1,0 +1,44 @@
+@use '../../styles/variables' as *;
+
+.rail {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 400;
+  width: 14px;
+  pointer-events: none;
+}
+
+.thumb {
+  position: absolute;
+  top: 0;
+  right: 3px;
+  width: 4px;
+  border-radius: 4px;
+  background: rgba($pink, 0.85);
+  pointer-events: auto;
+  cursor: grab;
+  will-change: transform;
+  transition:
+    width 0.2s,
+    background-color 0.2s,
+    opacity 0.2s;
+
+  // Wider invisible hit area so the 4px bar is easy to grab
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 -5px 0 -6px;
+  }
+
+  &:hover,
+  &[data-dragging] {
+    width: 7px;
+    background: $pink;
+  }
+
+  &[data-dragging] {
+    cursor: grabbing;
+  }
+}

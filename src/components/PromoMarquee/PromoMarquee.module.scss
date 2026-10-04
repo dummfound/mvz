@@ -12,38 +12,43 @@
   position: relative;
   z-index: 3;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .track {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: 1.5rem;
   height: 100%;
   animation: marquee 40s linear infinite;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 850;
   line-height: 1;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
   color: $black;
-  // Trim font em-box, then optically center Space Mono caps in the band
-  text-box-trim: trim-both;
-  text-box-edge: cap alphabetic;
 }
 
 .item {
   display: inline-flex;
   align-items: center;
-  padding: 0 0.5rem;
+  gap: 1rem;
+  padding-right: 1rem;
   line-height: 1;
+  // Trim to cap height so caps sit on the band's optical center
   text-box-trim: trim-both;
   text-box-edge: cap alphabetic;
-  // Optical center for Space Mono caps (ink sits slightly high in the em-box)
-  position: relative;
-  top: 1px;
+}
+
+// Drawn bar instead of «|»: the glyph is taller than the caps
+.sep {
+  display: block;
+  flex-shrink: 0;
+  width: 2px;
+  height: 0.66em;
+  background: currentColor;
 }
 
 @keyframes marquee {

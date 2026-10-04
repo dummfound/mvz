@@ -8,7 +8,7 @@
   justify-content: center;
   overflow: hidden;
   min-height: clamp(300px, 42vh, 400px);
-  padding: clamp(32px, 5vh, 56px) 16px;
+  padding: clamp(32px, 5vh, 56px) 0;
   color: var(--white);
   background: $black;
 }
@@ -113,7 +113,7 @@
     color: var(--white);
     font-family: var(--font-body);
     font-size: clamp(0.8rem, 1.3vw, 1rem);
-    font-weight: 600;
+    font-weight: 300;
     line-height: 1.2;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -167,7 +167,7 @@
 @media (max-width: 599px) {
   .block {
     min-height: 340px;
-    padding: 28px 12px;
+    padding: 28px 0;
   }
 
   .line1 {
@@ -184,9 +184,10 @@
     gap: 8px;
 
     button {
-      padding: 11px 6px;
-      font-size: clamp(0.66rem, 3vw, 0.8rem);
-      letter-spacing: 0.04em;
+      padding: 12px 8px;
+      font-size: clamp(0.62rem, 2.8vw, 0.74rem);
+      letter-spacing: 0.05em;
+      font-weight: 300;
     }
   }
 }

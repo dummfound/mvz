@@ -5,6 +5,7 @@ export function PromoMarquee() {
   const repeat = Array.from({ length: 10 }, (_, i) => (
     <span key={i} className={styles.item}>
       {promoText}
+      <span className={styles.sep} />
     </span>
   ))
 

@@ -88,6 +88,22 @@
 }
 
 @media (max-width: 767px) {
+  .gallery {
+    padding-top: 4px;
+    padding-bottom: 40px;
+  }
+
+  // On mobile the title lands on the dark part of the gradient
+  .sectionTitle {
+    margin-bottom: 18px;
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    color: var(--white);
+  }
+
+  .watermark {
+    padding: 16px 0;
+  }
+
   .watermark span {
     font-size: clamp(2.75rem, 18vw, 4.5rem);
   }
@@ -95,6 +111,7 @@
   .grid {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
+    gap: 10px;
     min-height: 0;
   }
 

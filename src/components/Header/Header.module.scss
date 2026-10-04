@@ -6,14 +6,12 @@
   left: 0;
   right: 0;
   z-index: 300;
-  min-height: var(--header-height);
+  height: var(--header-height);
   padding-top: var(--safe-top);
   box-sizing: border-box;
   transform: translate3d(0, 0, 0);
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    min-height 0.3s ease;
+  // Height, background and the hero ↔ compact morph are driven by GSAP (Header.jsx)
+  will-change: background-color, height;
 }
 
 .shellOpen {
@@ -50,25 +48,25 @@
   text-transform: uppercase;
   position: relative;
   z-index: 310;
-  transition: color 0.3s ease;
-}
-
-.logoMain,
-.logoSub {
-  transition: color 0.3s ease, opacity 0.3s ease;
+  will-change: transform;
 }
 
 .logoMain {
+  display: block;
   font-size: clamp(1.85rem, 6.2vw, 3.1rem);
+  transform-origin: left top;
 }
 
 .logoSub {
+  display: block;
   font-size: clamp(0.9rem, 3.6vw, 1.35rem);
   letter-spacing: 0.22em;
+  transform-origin: left top;
 }
 
 .navDesktop {
   display: none;
+  will-change: transform, opacity;
 
   @media (min-width: $bp-desktop) {
     display: block;
@@ -83,10 +81,13 @@
 }
 
 .navList a {
-  font-size: clamp(0.85rem, 1.15vw, 1.05rem);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  display: inline-block;
+  transform-origin: right top;
+  font-family: var(--font-menu);
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  text-transform: none;
   white-space: nowrap;
   transition: opacity 0.2s, color 0.2s;
 
@@ -135,8 +136,6 @@
 }
 
 .compactTheme {
-  display: flex;
-  align-items: center;
   background: $black;
   // Covers Lenis/GPU hairline without extending the painted bar height
   box-shadow: 0 1px 0 $black;
@@ -252,11 +251,6 @@
 }
 
 @media (max-width: ($bp-desktop - 1px)) {
-  .shell {
-    display: flex;
-    align-items: center;
-  }
-
   .bar {
     display: flex;
     align-items: center;
@@ -265,7 +259,7 @@
     width: var(--container-mobile);
     min-height: var(--header-bar);
     height: var(--header-bar);
-    padding: 10px 0;
+    padding: 0;
   }
 
   .logo {
@@ -337,7 +331,7 @@ $menu-block: 16px;
   margin: 0;
   font-family: var(--font-body);
   font-size: clamp(0.78rem, 3.2vw, 0.95rem);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.35;
   letter-spacing: 0.06em;
   word-spacing: 0.08em;
@@ -402,15 +396,16 @@ $menu-block: 16px;
   align-items: center;
   justify-content: center;
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
   padding: 14px 16px;
   border-radius: $radius-pill;
   background: var(--pink);
   color: var(--black);
-  font-family: var(--font-display);
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 3.2vw, 0.88rem);
+  font-weight: 850;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   box-shadow: none;
   transition: transform 0.2s;
@@ -423,8 +418,9 @@ $menu-block: 16px;
 .note {
   margin: 0;
   text-align: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 0.72rem;
+  font-weight: 300;
   line-height: 1.2;
   color: rgba($white, 0.5);
 }

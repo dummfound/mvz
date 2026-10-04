@@ -8,6 +8,70 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Extenda';
+  src: url('/fonts/Extenda-Peta.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Book.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Book.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Heavy.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Heavy.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Heavy.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Heavy.woff') format('woff');
+  font-weight: 850;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Heavy.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -27,10 +91,13 @@
   --font-body: #{$font-body};
   --font-mono: #{$font-mono};
   --font-condensed: #{$font-condensed};
+  --font-menu: #{$font-menu};
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --header-bar: #{$header-height-mobile};
   --header-height: calc(var(--header-bar) + var(--safe-top));
+  // Not overridden by compact mode, so layout below the header never reflows
+  --header-height-full: calc(#{$header-height-mobile} + var(--safe-top));
   --bp-desktop: #{$bp-desktop};
 }
 
@@ -39,6 +106,7 @@
     --container: #{$container};
     --header-bar: #{$header-height};
     --header-height: calc(var(--header-bar) + var(--safe-top));
+    --header-height-full: calc(#{$header-height} + var(--safe-top));
   }
 }
 
@@ -69,6 +137,12 @@ html.menu-open body {
 @media (hover: hover) and (pointer: fine) {
   html {
     overscroll-behavior-y: none;
+    // Replaced by the overlay <ScrollBar />
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -80,6 +154,10 @@ body {
   color: var(--black);
   background: var(--white);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 // Лёгкое зерно / плёночная текстура поверх всего сайта

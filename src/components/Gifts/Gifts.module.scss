@@ -93,32 +93,72 @@
 .text {
   margin: 0;
   max-width: 420px;
+  font-family: var(--font-body);
   font-size: clamp(0.9rem, 2.4vw, 1.1rem);
-  font-weight: 500;
+  font-weight: 300;
   line-height: 1.5;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: rgba($white, 0.82);
 
   strong {
     display: inline;
     color: var(--white);
-    font-weight: 700;
+    font-weight: 850;
   }
 }
 
 @media (max-width: 767px) {
+  .gifts {
+    padding-bottom: clamp(36px, 8vh, 56px);
+  }
+
   .grid {
     grid-template-columns: 1fr;
-    gap: clamp(48px, 12vw, 72px);
+    gap: clamp(40px, 11vw, 64px);
   }
 
   .cardStack {
     max-width: none;
-    height: clamp(220px, 68vw, 320px);
+    height: clamp(190px, 54vw, 260px);
   }
 
   .cardLayer {
-    width: min(360px, 98%);
+    width: min(300px, 78%);
+  }
+
+  .title {
+    font-size: clamp(2rem, 9.5vw, 2.75rem);
+    max-width: 16rem;
+  }
+
+  .text {
+    max-width: 18rem;
+    font-size: clamp(0.85rem, 3.6vw, 0.98rem);
+    line-height: 1.45;
+  }
+
+  .certificates .cardLayer {
+    &:nth-child(1) {
+      transform: translateX(calc(-50% - 14%)) rotate(-12deg) translateY(8px);
+    }
+
+    &:nth-child(2) {
+      transform: translateX(calc(-50% + 6%)) rotate(7deg) translateY(4px);
+    }
+
+    &:nth-child(3) {
+      transform: translateX(calc(-50% + 10%)) rotate(-2deg);
+    }
+  }
+
+  .subscription .cardLayer {
+    &:nth-child(1) {
+      transform: translateX(calc(-50% - 12%)) rotate(-9deg) translateY(6px);
+    }
+
+    &:nth-child(2) {
+      transform: translateX(calc(-50% + 10%)) rotate(9deg) translateY(2px);
+    }
   }
 }

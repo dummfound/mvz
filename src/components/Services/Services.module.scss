@@ -5,14 +5,14 @@
   background: var(--dark);
   color: var(--white);
   padding-bottom: clamp(48px, 8vh, 100px);
+
+  @media (max-width: 599px) {
+    padding-bottom: clamp(28px, 5vh, 40px);
+  }
 }
 
 .inner {
   @include section-inner;
-
-  @media (max-width: 599px) {
-    padding-right: 0;
-  }
 }
 
 .sectionTitle {
@@ -26,7 +26,9 @@
 
   @media (max-width: 599px) {
     // Match track end gutter / container-mobile (16px)
+    margin-bottom: 18px;
     padding-right: 16px;
+    font-size: clamp(2rem, 10vw, 2.75rem);
   }
 }
 
@@ -39,6 +41,11 @@
 
   &:active {
     cursor: grabbing;
+  }
+
+  @media (max-width: 599px) {
+    // Bleed past the container so the next card peeks from the screen edge
+    margin-right: -16px;
   }
 
   @media (min-width: 600px) {

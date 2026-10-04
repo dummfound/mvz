@@ -1,8 +1,21 @@
 import { images } from './images.js'
 
-export const promoText = 'СКИДКА 20% НА ПЕРВЫЙ ВИЗИТ |'
+export const promoText = 'СКИДКА 20% НА ПЕРВЫЙ ВИЗИТ'
 
 export const bookingUrl = 'https://dikidi.net/1765251'
+
+export const contactsInfo = {
+  address: 'липецк, первомайская, 119',
+  addressUrl: 'https://yandex.ru/maps/org/mvz_friends/169504746111/',
+  phone: '+7 (952) 593-59-48',
+  phoneHref: 'tel:+79525935948',
+  hoursDays: 'ежедневно',
+  hoursTime: '10:00–22:00',
+  socials: [
+    { label: 'telegram', href: 'https://t.me/mvz_friends' },
+    { label: 'vk', href: 'https://vk.com/mvz_friends' },
+  ],
+}
 
 export const navItems = [
   { path: '/about', sectionId: 'about', label: 'кто мы?' },

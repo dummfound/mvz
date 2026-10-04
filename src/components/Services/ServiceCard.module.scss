@@ -89,7 +89,7 @@
 }
 
 .womenSmall {
-  font-family: 'Montserrat', var(--font-body);
+  font-family: var(--font-body);
   font-size: 27px;
   font-weight: 800;
   fill: var(--white);
@@ -169,7 +169,7 @@
     border-radius: $radius-pill;
     background: #242424;
     color: var(--white);
-    font-family: 'Montserrat', var(--font-body);
+    font-family: var(--font-body);
     font-size: clamp(0.48rem, 4.2cqi, 0.72rem);
     font-weight: 300;
     line-height: 1.05;
@@ -193,8 +193,12 @@
 
     li {
       padding: 0.42em 0.8em 0.42em 0.95em;
-      font-size: clamp(0.78rem, 3.6vw, 0.95rem);
-      letter-spacing: 0.12em;
+      font-size: clamp(0.68rem, 3.1vw, 0.82rem);
+      letter-spacing: 0.08em;
+      white-space: normal;
+      line-height: 1.2;
+      overflow: visible;
+      text-overflow: unset;
     }
   }
 }
@@ -251,7 +255,7 @@
 
 .browsMain,
 .browsPink {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-body);
   text-transform: uppercase;
 }
 

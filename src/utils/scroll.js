@@ -9,12 +9,15 @@ function readCssPx(cssValue) {
   return px
 }
 
+// Keep in sync with $header-height-compact / $header-height-mobile-compact
+const COMPACT_BAR_DESKTOP = 64
+const COMPACT_BAR_MOBILE = 52
+
 /** Compact chrome height — section landings shrink the header. */
 export function readCompactHeaderOffset() {
-  const root = document.documentElement
-  root.dataset.header = 'compact'
-  void root.offsetHeight
-  const px = readCssPx('var(--header-height)')
+  const desktop = window.matchMedia('(min-width: 1024px)').matches
+  const bar = desktop ? COMPACT_BAR_DESKTOP : COMPACT_BAR_MOBILE
+  const px = bar + readCssPx('var(--safe-top)')
   // Ceil + 1px closes Lenis/GPU subpixel hairlines under fixed chrome
   return Math.max(1, Math.ceil(px) + 1)
 }

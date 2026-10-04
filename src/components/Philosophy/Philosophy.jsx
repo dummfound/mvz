@@ -10,7 +10,7 @@ export function Philosophy() {
 
   return (
 
-    <section className={styles.block} aria-label="Философия салона">
+    <section id="philosophy" className={styles.block} aria-label="Философия салона">
 
       <img className={styles.bg} src={images.philosophy} alt="" decoding="async" />
 
