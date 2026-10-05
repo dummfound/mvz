@@ -13,6 +13,19 @@
 
 .inner {
   @include section-inner;
+
+  // Give cards air on mid / large desktops without changing the global container
+  @media (min-width: 1100px) {
+    width: min(1360px, calc(100% - 56px));
+  }
+
+  @media (min-width: 1440px) {
+    width: min(1480px, calc(100% - 64px));
+  }
+
+  @media (min-width: 1680px) {
+    width: min(1620px, calc(100% - 80px));
+  }
 }
 
 .sectionTitle {
@@ -25,10 +38,14 @@
   color: var(--pink);
 
   @media (max-width: 599px) {
-    // Match track end gutter / container-mobile (16px)
     margin-bottom: 18px;
     padding-right: 16px;
     font-size: clamp(2rem, 10vw, 2.75rem);
+  }
+
+  @media (min-width: 600px) {
+    margin-bottom: clamp(28px, 3.5vw, 40px);
+    font-size: clamp(2.6rem, 5.5vw, 4.25rem);
   }
 }
 
@@ -66,21 +83,29 @@
   align-items: stretch;
   gap: 12px;
   padding-right: 16px;
-  // Smoother GPU scroll while dragging on mobile
   backface-visibility: hidden;
   touch-action: pan-y pinch-zoom;
 
+  // Tablet / small laptop: two large cards
   @media (min-width: 600px) {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 1.6vw, 20px);
     padding-right: 0;
     transform: none !important;
     touch-action: auto;
   }
 
-  @media (min-width: 1101px) {
-    grid-template-columns: repeat(5, 1fr);
+  // 13–14" notebooks (~1100–1439): three bigger cards, not five squeezed
+  @media (min-width: 1100px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 1.4vw, 22px);
+  }
+
+  // Wide monitors only: five across without crushing card size
+  @media (min-width: 1680px) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 22px;
   }
 }
 

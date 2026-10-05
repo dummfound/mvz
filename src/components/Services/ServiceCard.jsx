@@ -103,7 +103,14 @@ export function ServiceCard({ variant, title, pills, image }) {
         aria-label={`Записаться: ${title}`}
       >
         <svg viewBox="0 0 24 24" aria-hidden focusable="false">
-          <path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          <path
+            d="M9 4 L17 12 L9 20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </a>
     </article>
